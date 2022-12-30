@@ -24,7 +24,7 @@ class CompaniesController extends Controller
      */
     public function create()
     {
-        //
+        return view('companies.create');
     }
 
     /**
@@ -35,7 +35,22 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|max:255|unique:companies',
+            'email' => 'nullable|email:dns',
+            'logo' => "nullable|image|mimes:jpg,png,jpeg,gif,svg|dimensions:min_width=100,min_height=100",
+            'website' => "nullable"
+        ]);
+
+        $image_path = null;
+        if($request->file('logo')) {
+            $image_path = $request->file('logo')->store('image', 'public');
+        }
+        $validatedData['logo'] = $image_path;
+
+        Companies::create($validatedData);
+
+        return redirect('dashboard')->with('success', "Successfully added new company!");
     }
 
     /**
