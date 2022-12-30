@@ -30,26 +30,34 @@
                         <table class="table table-bordered p-5">
                             <thead>
                                 <tr class="">
+                                    <th>Logo</th>
                                     <th>Name</th>
-                                    <th>Address</th>
                                     <th>Website</th>
                                     <th>Email</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="align-middle">Laravel Daily</td>
-                                    <td class="align-middle">New York, New York</td>
-                                    <td class="align-middle">www.laraveldaily.com</td>
-                                    <td class="align-middle">povilas@laraveldaily.com</td>
-                                    <td class="align-middle">
-                                        <button type="button" class="btn btn-secondary"
-                                            style="--bs-btn-color: #000;">Edit</button>
-                                        <button type="button" class="btn btn-danger"
-                                            style="--bs-btn-color: #000;">Delete</button>
-                                    </td>
-                                </tr>
+                                @foreach ($companiesData as $data)
+                                    <tr>
+                                        <td class="align-middle">
+                                            @if ($data->logo)
+                                                <img src="{{ asset('storage/' . $data->logo) }}" alt=""
+                                                    width="50" height="50">
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">{{ $data->name }}</td>
+                                        <td class="align-middle">{{ $data->website == null ? '-' : $data->website }}
+                                        </td>
+                                        <td class="align-middle">{{ $data->email == null ? '-' : $data->email }}</td>
+                                        <td class="align-middle">
+                                            <button type="button" class="btn btn-secondary"
+                                                style="--bs-btn-color: #000;">Edit</button>
+                                            <button type="button" class="btn btn-danger"
+                                                style="--bs-btn-color: #000;">Delete</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

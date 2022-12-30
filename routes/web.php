@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\EmployeesController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,9 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [Controller::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 Route::resource('/companies', CompaniesController::class);
 Route::resource('/employees', EmployeesController::class);
