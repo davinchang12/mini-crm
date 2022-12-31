@@ -37,7 +37,7 @@ class CompaniesController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:255|unique:companies,name',
+            'name' => 'required|max:255|unique:companies,name,NULL,id,deleted_at,NULL',
             'email' => 'nullable|email:dns',
             'logo' => "nullable|image|mimes:jpg,png,jpeg,gif,svg|dimensions:min_width=100,min_height=100",
             'website' => "nullable"

@@ -24,7 +24,7 @@
                 <div class="m-4">
                     <a href="{{ route('companies.create') }}" class="btn btn-success">Create new
                         company</a>
-                    @if (count($companiesData) > 0)
+                    @if (count($companies) > 0)
                         <div class="card mt-4 p-3">
                             <h5 class="card-title">Companies list</h5>
                             <hr>
@@ -39,23 +39,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($companiesData as $data)
+                                    @foreach ($companies as $company)
                                         <tr>
                                             <td class="align-middle">
-                                                @if ($data->logo)
-                                                    <img src="{{ asset('storage/' . $data->logo) }}" alt=""
+                                                @if ($company->logo)
+                                                    <img src="{{ asset('storage/' . $company->logo) }}" alt=""
                                                         width="50" height="50">
                                                 @endif
                                             </td>
-                                            <td class="align-middle">{{ $data->name }}</td>
-                                            <td class="align-middle">{{ $data->website == null ? '-' : $data->website }}
-                                            </td>
-                                            <td class="align-middle">{{ $data->email == null ? '-' : $data->email }}
+                                            <td class="align-middle">{{ $company->name }}</td>
+                                            <td class="align-middle">
+                                                {{ $company->website == null ? '-' : $company->website }}
                                             </td>
                                             <td class="align-middle">
-                                                <a href="{{ route('companies.edit', $data->id) }}"
+                                                {{ $company->email == null ? '-' : $company->email }}
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="{{ route('companies.edit', $company->id) }}"
                                                     class="btn btn-secondary">Edit</a>
-                                                <form action="{{ route('companies.destroy', $data->id) }}"
+                                                <form action="{{ route('companies.destroy', $company->id) }}"
                                                     method="POST">
                                                     @method('delete')
                                                     @csrf
@@ -74,48 +76,54 @@
         </div>
     </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    Employees
-                </div>
-                <div class="m-4">
-                    <a href="{{ route('employees.create') }}" class="btn btn-success">Add new
-                        employee</a>
-                    <div class="card mt-4 p-3">
-                        <h5 class="card-title">Employees list</h5>
-                        <hr>
-                        <table class="table table-bordered p-5">
-                            <thead>
-                                <tr class="">
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Company</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="align-middle">Davin</td>
-                                    <td class="align-middle">Chang</td>
-                                    <td class="align-middle">Laravel Daily</td>
-                                    <td class="align-middle">davinchang@davinchang.com</td>
-                                    <td class="align-middle">xxxxxxxxx</td>
-                                    <td class="align-middle">
-                                        <button type="button" class="btn btn-secondary"
-                                            style="--bs-btn-color: #000;">Edit</button>
-                                        <button type="button" class="btn btn-danger"
-                                            style="--bs-btn-color: #000;">Delete</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+    @if (count($companies) > 0)
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        Employees
+                    </div>
+                    <div class="m-4">
+                        <a href="{{ route('employees.create') }}" class="btn btn-success">Add new
+                            employee</a>
+                        @if (count($employees) > 0)
+                            <div class="card mt-4 p-3">
+                                <h5 class="card-title">Employees list</h5>
+                                <hr>
+                                <table class="table table-bordered p-5">
+                                    <thead>
+                                        <tr class="">
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Company</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($employees as $employee)
+                                            <tr>
+                                                <td class="align-middle">{{ $employee->firstname }}</td>
+                                                <td class="align-middle">{{ $employee->lastname }}</td>
+                                                <td class="align-middle">{{ $employee->company->name }}</td>
+                                                <td class="align-middle">{{ $employee->email ?? '-' }}</td>
+                                                <td class="align-middle">{{ $employee->phone ?? '-' }}</td>
+                                                <td class="align-middle">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        style="--bs-btn-color: #000;">Edit</button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        style="--bs-btn-color: #000;">Delete</button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 </x-app-layout>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Companies;
 use App\Models\Employees;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,11 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-        //
+        $companies = Companies::get();
+
+        return view('employees.create', [
+            'companies' => $companies,
+        ]);
     }
 
     /**
@@ -35,7 +40,17 @@ class EmployeesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'company_id' => 'required',
+            'email' => 'nullable|email:dns',
+            'phone' => 'nullable|numeric|min:8',
+        ]);
+
+        Employees::create($validatedData);
+
+        return redirect('dashboard')->with('success', 'Successfully added new employee');
     }
 
     /**
