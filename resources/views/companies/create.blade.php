@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create Companies') }}
+            {{ __('Create Company') }}
         </h2>
     </x-slot>
 
@@ -21,7 +21,7 @@
                     <div class="mb-3">
                         <label for="inputEmail" class="form-label">Email address</label>
                         <input type="email" class="form-control" name="email" id="inputEmail"
-                            aria-describedby="emailHelp">
+                            aria-describedby="emailHelp" value="{{ old('email', $company->email) }}">
                         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         @error('email')
                             <span class="text-danger labelinput">{{ $message }}</span>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="inputWebsite" class="form-label">Website</label>
-                        <input type="text" class="form-control" name="website" id="inputWebsite">
+                        <input type="text" class="form-control" name="website" id="inputWebsite" value="{{ old('website', $company->website) }}">
                     </div>
                     <button type="submit" class="btn btn-primary" style="background-color: #0d6efd;">Create</button>
                 </form>
