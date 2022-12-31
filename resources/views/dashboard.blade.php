@@ -24,42 +24,51 @@
                 <div class="m-4">
                     <a href="{{ route('companies.create') }}" class="btn btn-success">Create new
                         company</a>
-                    <div class="card mt-4 p-3">
-                        <h5 class="card-title">Companies list</h5>
-                        <hr>
-                        <table class="table table-bordered p-5">
-                            <thead>
-                                <tr class="">
-                                    <th>Logo</th>
-                                    <th>Name</th>
-                                    <th>Website</th>
-                                    <th>Email</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($companiesData as $data)
-                                    <tr>
-                                        <td class="align-middle">
-                                            @if ($data->logo)
-                                                <img src="{{ asset('storage/' . $data->logo) }}" alt=""
-                                                    width="50" height="50">
-                                            @endif
-                                        </td>
-                                        <td class="align-middle">{{ $data->name }}</td>
-                                        <td class="align-middle">{{ $data->website == null ? '-' : $data->website }}
-                                        </td>
-                                        <td class="align-middle">{{ $data->email == null ? '-' : $data->email }}</td>
-                                        <td class="align-middle">
-                                            <a href="{{ route('companies.edit', $data->id) }}" class="btn btn-secondary">Edit</a>
-                                            <button type="button" class="btn btn-danger"
-                                                style="--bs-btn-color: #000;">Delete</button>
-                                        </td>
+                    @if (count($companiesData) > 0)
+                        <div class="card mt-4 p-3">
+                            <h5 class="card-title">Companies list</h5>
+                            <hr>
+                            <table class="table table-bordered p-5">
+                                <thead>
+                                    <tr class="">
+                                        <th>Logo</th>
+                                        <th>Name</th>
+                                        <th>Website</th>
+                                        <th>Email</th>
+                                        <th></th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    @foreach ($companiesData as $data)
+                                        <tr>
+                                            <td class="align-middle">
+                                                @if ($data->logo)
+                                                    <img src="{{ asset('storage/' . $data->logo) }}" alt=""
+                                                        width="50" height="50">
+                                                @endif
+                                            </td>
+                                            <td class="align-middle">{{ $data->name }}</td>
+                                            <td class="align-middle">{{ $data->website == null ? '-' : $data->website }}
+                                            </td>
+                                            <td class="align-middle">{{ $data->email == null ? '-' : $data->email }}
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="{{ route('companies.edit', $data->id) }}"
+                                                    class="btn btn-secondary">Edit</a>
+                                                <form action="{{ route('companies.destroy', $data->id) }}"
+                                                    method="POST">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger"
+                                                        style="--bs-btn-color: #000;">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

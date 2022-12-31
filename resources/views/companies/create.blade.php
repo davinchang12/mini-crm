@@ -21,7 +21,7 @@
                     <div class="mb-3">
                         <label for="inputEmail" class="form-label">Email address</label>
                         <input type="email" class="form-control" name="email" id="inputEmail"
-                            aria-describedby="emailHelp" value="{{ old('email', $company->email) }}">
+                            aria-describedby="emailHelp" value="{{ old('email') }}">
                         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         @error('email')
                             <span class="text-danger labelinput">{{ $message }}</span>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="inputWebsite" class="form-label">Website</label>
-                        <input type="text" class="form-control" name="website" id="inputWebsite" value="{{ old('website', $company->website) }}">
+                        <input type="text" class="form-control" name="website" id="inputWebsite" value="{{ old('website') }}">
                     </div>
                     <button type="submit" class="btn btn-primary" style="background-color: #0d6efd;">Create</button>
                 </form>

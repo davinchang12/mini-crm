@@ -110,8 +110,10 @@ class CompaniesController extends Controller
      * @param  \App\Models\Companies  $companies
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Companies $companies)
+    public function destroy(Companies $company)
     {
-        //
+        Companies::find($company->id)->delete();
+
+        return redirect('dashboard')->with('success', "Successfully deleted a company!");
     }
 }
