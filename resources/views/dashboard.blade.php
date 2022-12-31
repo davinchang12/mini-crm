@@ -110,10 +110,15 @@
                                                 <td class="align-middle">{{ $employee->email ?? '-' }}</td>
                                                 <td class="align-middle">{{ $employee->phone ?? '-' }}</td>
                                                 <td class="align-middle">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        style="--bs-btn-color: #000;">Edit</button>
-                                                    <button type="button" class="btn btn-danger"
-                                                        style="--bs-btn-color: #000;">Delete</button>
+                                                    <a href="{{ route('employees.edit', $employee->id) }}"
+                                                        class="btn btn-secondary">Edit</a>
+                                                    <form action="{{ route('employees.destroy', $employee->id) }}"
+                                                        method="POST">
+                                                        @method('delete')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger"
+                                                            style="--bs-btn-color: #000;">Delete</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach

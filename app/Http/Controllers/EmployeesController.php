@@ -50,7 +50,7 @@ class EmployeesController extends Controller
 
         Employees::create($validatedData);
 
-        return redirect('dashboard')->with('success', 'Successfully added new employee');
+        return redirect('dashboard')->with('success', 'Successfully added new employee!');
     }
 
     /**
@@ -70,9 +70,13 @@ class EmployeesController extends Controller
      * @param  \App\Models\Employees  $employees
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employees $employees)
+    public function edit(Employees $employee)
     {
-        //
+        $companies = Companies::get();
+        return view('employees.edit', [
+            'employee' => $employee,
+            'companies' => $companies,
+        ]);
     }
 
     /**
@@ -82,9 +86,19 @@ class EmployeesController extends Controller
      * @param  \App\Models\Employees  $employees
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employees $employees)
+    public function update(Request $request, Employees $employee)
     {
-        //
+        $validatedData = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'company_id' => 'required',
+            'email' => 'nullable|email:dns',
+            'phone' => 'nullable|numeric|min:8',
+        ]);
+
+        Employees::find($employee->id)->update($validatedData);
+
+        return redirect('dashboard')->with('success', 'Successfully edited employee!');
     }
 
     /**
@@ -93,8 +107,10 @@ class EmployeesController extends Controller
      * @param  \App\Models\Employees  $employees
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employees $employees)
+    public function destroy(Employees $employee)
     {
-        //
+        Employees::find($employee->id)->delete();
+
+        return redirect('dashboard')->with('success', 'Successfully deleted employee!');
     }
 }
