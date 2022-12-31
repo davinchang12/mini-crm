@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Companies;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CompaniesController extends Controller
 {
@@ -36,14 +37,14 @@ class CompaniesController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:255|unique:companies',
+            'name' => 'required|max:255|unique:companies,name',
             'email' => 'nullable|email:dns',
             'logo' => "nullable|image|mimes:jpg,png,jpeg,gif,svg|dimensions:min_width=100,min_height=100",
             'website' => "nullable"
         ]);
 
         $image_path = null;
-        if($request->file('logo')) {
+        if ($request->file('logo')) {
             $image_path = $request->file('logo')->store('image', 'public');
         }
         $validatedData['logo'] = $image_path;
@@ -70,9 +71,11 @@ class CompaniesController extends Controller
      * @param  \App\Models\Companies  $companies
      * @return \Illuminate\Http\Response
      */
-    public function edit(Companies $companies)
+    public function edit(Companies $company)
     {
-        //
+        return view('companies.edit', [
+            'company' => $company,
+        ]);
     }
 
     /**
@@ -82,9 +85,23 @@ class CompaniesController extends Controller
      * @param  \App\Models\Companies  $companies
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Companies $companies)
+    public function update(Request $request, Companies $company)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => ['required', 'max:255', Rule::unique('companies')->ignore($company->id)],
+            'email' => 'nullable|email:dns',
+            'logo' => "nullable|image|mimes:jpg,png,jpeg,gif,svg|dimensions:min_width=100,min_height=100",
+            'website' => "nullable"
+        ]);
+
+        $image_path = null;
+        if ($request->file('logo')) {
+            $image_path = $request->file('logo')->store('image', 'public');
+        }
+        $validatedData['logo'] = $image_path;
+        Companies::find($company->id)->update($validatedData);
+
+        return redirect('dashboard')->with('success', "Successfully edited a company!");
     }
 
     /**

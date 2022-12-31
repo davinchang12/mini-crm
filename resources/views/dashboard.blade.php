@@ -51,8 +51,7 @@
                                         </td>
                                         <td class="align-middle">{{ $data->email == null ? '-' : $data->email }}</td>
                                         <td class="align-middle">
-                                            <button type="button" class="btn btn-secondary"
-                                                style="--bs-btn-color: #000;">Edit</button>
+                                            <a href="{{ route('companies.edit', $data->id) }}" class="btn btn-secondary">Edit</a>
                                             <button type="button" class="btn btn-danger"
                                                 style="--bs-btn-color: #000;">Delete</button>
                                         </td>
